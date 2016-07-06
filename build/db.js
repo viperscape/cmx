@@ -15,6 +15,13 @@ class Store {
         db.run(q, function (e) { if (e)
             console.log('err', e); });
     }
+    gaps(allowance, ev) {
+        let q = 'SELECT * FROM gaps WHERE "from" < datetime("to",\'-' + allowance + ' minutes\')';
+        this.db.all(q, function (e, r) {
+            if (!e)
+                ev.emit('gaps', r);
+        });
+    }
 }
 exports.Store = Store;
 ;

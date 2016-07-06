@@ -13,6 +13,7 @@ app.get('/meraki', function (req, res) {
     console.log("sending validation");
 });
 let heartbeat;
+let store;
 app.post('/meraki', function (req, res) {
     if (req.body.secret == secret) {
         let data = req.body.data;
@@ -27,9 +28,15 @@ app.post('/meraki', function (req, res) {
         console.log('invalid secret');
     }
 });
-function start(port, cb) {
+function start(port, db, cb) {
     heartbeat = cb;
+    store = db;
     app.listen(port);
     return app;
 }
 exports.start = start;
+const ev = new (require('events'));
+app.get('/', function (req, res) {
+    ev.once('gaps', function (r) { res.send(r); });
+    store.gaps(70, ev);
+});

@@ -15,7 +15,9 @@ app.get('/meraki', function(req, res){
   console.log("sending validation")
 });
 
+import db = require('./db');
 let heartbeat;
+let store: db.Store;
 
 app.post('/meraki', function(req, res){ 
 	if (req.body.secret == secret) {
@@ -28,8 +30,15 @@ app.post('/meraki', function(req, res){
 	else { console.log('invalid secret') }
 });
 
-export function start (port: number, cb): express.Express {
+export function start (port: number, db: db.Store, cb): express.Express {
 	heartbeat = cb;
+	store = db;
 	app.listen(port);
 	return app
 }
+
+const ev = new (require('events'));
+app.get('/', function(req, res) {
+	ev.once('gaps', function (r) {res.send(r) });
+	store.gaps(70, ev);
+});
