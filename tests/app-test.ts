@@ -11,9 +11,8 @@ dbinit.gaps_table_rebuild(store.db);
 import moment = require('moment');
 
 store.db.serialize(function () {
-    
 
-    // add 4 hours to offset, momentjs likes to subtract 4 on format...
+    // NOTE: add 4 hours to offset, momentjs likes to subtract 4 on format...
     let time = moment(new Date()).subtract(25,"minute").format('YYYY-MM-DD HH:mm:ss');
     store.update("00:00:00:00:00:00",time);
 
