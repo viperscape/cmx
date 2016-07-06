@@ -5,11 +5,12 @@
   "main": "build/app.js",
   "scripts": {
     "start": "node build/app.js",
-    "test": "node build/app-test.js"
+    "test": "node build/tests/app-test.js"
   },
   "author": "Chris Gill",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "moment": "^2.14.1",

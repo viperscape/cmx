@@ -1,5 +1,6 @@
 "use strict"
 
+import async = require('async');
 import sql = require('sqlite3');
 import db_init = require('./db-init');
 
@@ -15,19 +16,17 @@ export class Store {
 
     update (mac,heartbeat) {
         let db = this.db; // NOTE: we lose 'this' context
-        let q = 'insert into clients (mac,heartbeat) values ("' + mac + '","' + heartbeat + '")';
-        
-        // NOTE: for some reason nesting db.run inside the err-callback does not always work..
-        // instead let's use a flag
-        let update = false
-        db.run(q, function(e) {
-            if (e) update = true;
-        });
 
-        if (update) {
-            q = 'update clients set heartbeat="' + heartbeat + '" where mac="' + mac + '"';
-            db.run(q, function(e) { if (e) console.log('err',e) });
-        }
+        // FIXME: sqlitejs is picky about this, so we must both insert and update independently
+        // this ensures both is run
+
+        // NOTE: we cannot 'insert or replace' here
+        // since the row changes completely and the db-trigger will not fire then
+        var q = 'insert into clients (mac,heartbeat) values ("' + mac + '","' + heartbeat + '")';
+        db.run(q, function(e) {}); // NOTE: this is a bug, db.run inside here does nothing-- regardless
+
+        var q = 'update clients set heartbeat="' + heartbeat + '" where mac="' + mac + '"';
+        db.run(q, function(e) { if (e) console.log('err',e) });
     }
 
 
