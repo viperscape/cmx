@@ -1,0 +1,14 @@
+{
+   "compileOnSave": true,
+   "compilerOptions": {
+       "module": "commonjs",
+       "outDir": "build",
+       "removeComments": true,
+       "target": "es2015",
+       "watch": true
+   },
+   "exclude": [
+    "node_modules",
+    "build"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "cmx",
+  "version": "1.0.0",
+  "description": "cmx presence analytics",
+  "main": "build/app.js",
+  "scripts": {
+    "start": "node build/app.js",
+    "test": "node build/app-test.js"
+  },
+  "author": "Chris Gill",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "moment": "^2.14.1",
+    "sqlite3": "^3.1.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
