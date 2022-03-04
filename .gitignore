@@ -3,3 +3,5 @@ store.db
 store.db-journal
 store-test.db
 store-test.db-journal
+typings/
+build/
